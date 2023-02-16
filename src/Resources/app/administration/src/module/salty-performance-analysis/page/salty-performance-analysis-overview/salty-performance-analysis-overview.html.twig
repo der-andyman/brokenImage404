@@ -1,0 +1,88 @@
+<sw-page :showSearchBar="showSearchBar">
+    <{# template #smart-bar-actions> 
+    </template> #}
+    <template slot="content">
+        <sw-card-view>
+            <sw-card title="Media Objects" :large="true" class="test">
+                <sw-container columns="auto auto">
+                    <sw-card-section id='textFeld' divider="right" >
+                        <b>Das Plugin sucht das Original-Foto der MediaObjekte.</b><br/>
+                        Wir suchen nicht nach Thumbnails, denn diese kann Shopware ja 
+                        ganz einfach wieder aus den Originalen generieren. 
+                        Quick-Fix: Suche im MediaManager nach dem Buldernamen und Ersetze das Foto durch das Original von Deinem Rechner.
+                        <br/><br/>
+                        <b>Besonderheiten beim Einsatz eines CDN.</b>
+                        Wenn unser Plugin ein Bild als 404 markiert kann dieses Bild aber noch auf dem CDN vorhanden sein. Achtet also dann darauf, 
+                        dass Ihr beim Testen die angezeigte URL nochmal auf die BasusURL eures Shops ändert. Wir liefern immer die URL mit CDN aus, 
+                        falls vorhanden.<br/>
+                        <a>https://cdn.testshop.de/media/1/a/x/bild.jpg</a> -> Bild wird mögl. angezeigt, weil es gecached ist 
+                        <br/>
+                        <a>https://testshop.de/media/1/a/x/bild.jpg</a> -> 404
+                        <br/><br/>
+                        Meldet euch gerne bei <a href="mailto:info@exwe.de">info@exwe.de</a> für Fragen oder Verbesserungswünsche.
+                        <br/>Euer Team von <a href="https://www.exwe.de">www.exwe.de</a>
+                    </sw-card-section>
+
+                    <sw-card-section divider="left">
+                        <b>The plugin searches for the original photo of the MediaObjects.</b> <br/>
+                        We do not search for thumbnails, because Shopware can easily regenerate them from the originals. 
+                        Quick-Fix: Search for the picture name in the MediaManager and replace the photo with the original from your computer.
+                        <br/><br/>
+                        <b>Special feature when using a CDN.</b>
+                        If our plugin marks an image as 404, this image may still be available on the CDN. 
+                        So make sure that you change the displayedURL to the base URL of your shop again when testing.
+                        We always deliver the URL with CDN, if available.
+                        <a>https://cdn.testshop.de/media/1/a/x/bild.jpg</a> -> image may be displayed because it is cached <br/>
+                        <a>https://testshop.de/media/1/a/x/bild.jpg</a> -> 404
+                        <br/><br/>
+                        Feel free to contact <a href="mailto:info@exwe.de">info@exwe.de</a> for questions or requests for improvement.
+                        <br/>Your team from <a href="https://www.exwe.de">www.exwe.de</a>
+                    </sw-card-section>
+                </sw-container>
+                <br/><br/>
+
+                <salty-performance-media-grid
+                    :values="mediaConfigurationInformation">
+                </salty-performance-media-grid>
+                <br/>
+                
+                <b>Total: </b> 
+                {# {% set count = 0 %}
+                {% for nc in saltyPerformanceAnalysis %}
+                    {% set count = count + 1 %}
+                {% endfor %}
+                {{ count }} #}
+                {% set size = "5" %}
+                {% if size is empty %}
+                    Blub
+                {% endif %}
+                {{ size }}
+            </sw-card>
+            <sw-card :large="true">
+            {% block example_block %}
+                <sw-tabs>
+                    <sw-tabs-item>
+                        Explore
+                    </sw-tabs-item>
+                    <sw-tabs-item>
+                        My Plugins
+                    </sw-tabs-item>
+                </sw-tabs>
+            {% endblock %}
+            </sw-card>
+            {# <sw-card title="Shopware Configuration" :large="true" class="test">
+                <salty-performance-analysis-grid
+                    :values="shopwareConfigurationInformation">
+                </salty-performance-analysis-grid>
+            </sw-card>
+
+            <sw-card title="Server Configuration" :large="true">
+                <salty-performance-analysis-grid
+                    :values="serverConfigurationInformation">
+                </salty-performance-analysis-grid>
+
+                {{ $tc('saltyPerformanceAnalysis.remarks.serverProtocol') }}
+            </sw-card>#}
+        </sw-card-view>
+    </template>
+</sw-page>
