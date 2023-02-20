@@ -62,7 +62,28 @@ class SaltyPerformanceAnalysisService extends ApiService {
                 return ApiService.handleResponse(response);
             });
     }
+
+
+    /**
+     * @return {Promise<AxiosResponse<T>>}
+     */
+    getContentConfigurationInformation() {
+        const apiRoute = `_action/${this.getApiBasePath()}/content-configuration`;
+
+        return this.httpClient
+            .get(
+                apiRoute,
+                null,
+                {
+                    headers: this.getBasicHeaders()
+                }
+            )
+            .then((response) => {
+                return ApiService.handleResponse(response);
+            });
+    }
 }
+
 
 Application.addServiceProvider('SaltyPerformanceAnalysisService', (container) => {
     const initContainer = Application.getContainer('init');
