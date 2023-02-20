@@ -58,6 +58,43 @@
                 {% endif %}
                 {{ size }} #}
             </sw-card>
+
+            <sw-card title="Content" :large="true" class="test">
+                <sw-container columns="auto auto">
+                    <sw-card-section id='textFeld' divider="right" >
+                        <b>Das Plugin sucht in den Shopseiten nach Bildern.</b><br/>
+                        Wir listen hier alle Bilder auf, denn so könnt ihr auch schnell erkennen ob ihr alle Alt-Attribute korrekt gesetzt habt.
+                        <b>Quick-Fix:</b> Wenn das Bild "media/image/a4/fb/1b/xyz-missing-image.jpg" fehlt, einfach das Bild "xyz-missing-image.jpg" erneut in irgendeinen Ordner im MediaManager hochladen. Oder aber Ihr fixt die Verlinkung.<br/><br/>
+                        <b>Hinweis:</b> Hier gibt es bis jetzt noch keine Prüfung innerhalb der Übersetzungen.
+                        <br/><br/>
+                    </sw-card-section>
+
+                    <sw-card-section divider="left">
+                        <b>The plugin searches for images inside the shop pages.</b><br/>
+                        We list all images here, so you can quickly see if you have set all alt-attributes correctly.
+                        <b>Quick fix:</b> If the image "media/image/a4/fb/1b/xyz-missing-image.jpg" is missing, simply upload the image "xyz-missing-image.jpg" again to any folder in MediaManager. Or you fix the link.<br/><br/>      
+                        <b>Note:</b> There is no check within the translations so far.
+                    </sw-card-section>
+                </sw-container>
+                <br/><br/>
+
+                <salty-performance-content-grid
+                    :values="contentConfigurationInformation">
+                </salty-performance-content-grid>
+                <br/>   
+                
+                <b>Total: </b> 
+                {# {% set count = 0 %}
+                {% for nc in saltyPerformanceAnalysis %}
+                    {% set count = count + 1 %}
+                {% endfor %}
+                {{ count }} #}
+                {# {% set size = "5" %}
+                {% if size is empty %}
+                    Blub
+                {% endif %}
+                {{ size }} #}
+            </sw-card>
             <sw-card :large="true">
             {% block example_block %}
                 <sw-tabs>
