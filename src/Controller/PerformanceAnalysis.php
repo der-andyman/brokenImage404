@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace salty\Sw6PerformanceAnalysis\Controller;
 
 use phpDocumentor\Reflection\Element;
@@ -19,6 +17,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Mysqli;
 
 /**
  * @RouteScope(scopes={"api"})
@@ -81,6 +80,19 @@ class PerformanceAnalysis extends AbstractController
     }
 
     /**
+     * @Route(path="/content-configuration", methods={"GET"}, name="api.salty.performance.analysis.content-configurations-information")
+     */
+    public function getContentConfigurationInformation(Context $context): JsonResponse
+    {
+        $criteriaC = new Criteria();
+
+        //Liste aller Mediendateien im Shop am Ende in media 
+        $content = $this->mediaRepository->search($criteriaC, $context)->getEntities()->getElements();
+
+        return new JsonResponse($content);
+    }
+
+    /**
      * @Route(path="/media-configuration", methods={"GET"}, name="api.salty.performance.analysis.media-configurations-information")
      */
     public function getMediaConfigurationInformation(Context $context): JsonResponse
@@ -102,6 +114,26 @@ class PerformanceAnalysis extends AbstractController
         $productMediaLinkList = [];
         $missingMedia = [];
         $finalResult = [];
+
+        $servername = "127.0.0.1";
+        $username = "root";
+        $password = "root";
+        $dbname = "shopware";
+        
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        // Check connection
+        if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "SELECT p.id AS product_id, m.id AS media_id, p.product_number AS product_number  FROM media AS m 
+        LEFT JOIN product_media AS pm  ON m.id = pm.media_id
+        LEFT JOIN product AS p ON p.cover = pm.id
+        WHERE product_number REGEXP '^[a-zA-Z 0-9\,\+\-]*\.$' OR product_number IS NULL";
+        $result = $conn->query($sql);
+        $bigResult = $result->fetch_all();
+        $conn->close();
         
         //Erstellt in productsWithCovers eine Liste aller Produkte, die ein Cover haben
         foreach ($products as $b)
@@ -122,6 +154,12 @@ class PerformanceAnalysis extends AbstractController
                 array_push($missingMediaIds, $value->get("id")); 
             }
         }
+        /* foreach ($bigResult as $br)
+        {
+            
+            $br["product_id"]
+        }
+ */
 
         //Erstellt eine Liste in productMediaLinkList mit allen Link-Elementen, die ein Produkt mit einem fehlenden Bild verknüpfen
         foreach ($missingMediaIds as $id)
@@ -156,18 +194,19 @@ class PerformanceAnalysis extends AbstractController
             $mid = $p->get("mediaId");
             foreach ($missingMedia as $m)
             {
+                $pNr = "";
                 $int = array_search($mid, $finalResult);
                 if ($int >= 0)
                 {
-                    $pNr = "";
+                    /* $pNr = ""; */
                     foreach ($productsWithCovers as $pW)
                     {
                         if ($pW->get("id") == $pid)
                         {
-                            $pNr = $pNr . $pW->get("productNumber");
+                            $pNr = $pNr.$pW->get("productNumber");
                             if (substr($pNr, strlen($pNr)-1) == "")
                             {
-                                $pNr = $pNr .", ";
+                                $pNr = $pNr.", ";
                             }
                             
                         }

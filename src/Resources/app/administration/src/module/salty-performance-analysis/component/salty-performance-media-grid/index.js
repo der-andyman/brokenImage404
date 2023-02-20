@@ -75,10 +75,6 @@ Component.register('salty-performance-media-grid', {
         },
 
         getMediaConfigurationInformation() {
-           /*  this.SaltyPerformanceAnalysisService.getServerConfigurationInformation().then(response => {
-                this.serverConfigurationInformation = response;
-            });
- */
             this.SaltyPerformanceAnalysisService.getMediaConfigurationInformation().then(response => {
                 this.mediaConfigurationInformation = response;
             });
