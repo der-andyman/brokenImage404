@@ -44,7 +44,7 @@
                 <salty-performance-media-grid
                     :values="mediaConfigurationInformation">
                 </salty-performance-media-grid>
-                <br/>
+                <br/>   
                 
                 <b>Total: </b> 
                 {# {% set count = 0 %}
@@ -52,11 +52,11 @@
                     {% set count = count + 1 %}
                 {% endfor %}
                 {{ count }} #}
-                {% set size = "5" %}
+                {# {% set size = "5" %}
                 {% if size is empty %}
                     Blub
                 {% endif %}
-                {{ size }}
+                {{ size }} #}
             </sw-card>
             <sw-card :large="true">
             {% block example_block %}
