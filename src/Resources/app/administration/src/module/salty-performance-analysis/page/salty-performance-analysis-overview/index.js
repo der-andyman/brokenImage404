@@ -17,6 +17,7 @@ Component.register('salty-performance-analysis-overview', {
             shopwareConfigurationInformation: [],
             serverConfigurationInformation: [],
             mediaConfigurationInformation: [],
+            contentConfigurationInformation: [],
             showSearchBar: false,
             
         }
@@ -31,6 +32,7 @@ Component.register('salty-performance-analysis-overview', {
             this.getShopwareConfigurationInformation();
             this.getServerConfigurationInformation();
             this.getMediaConfigurationInformation();
+            this.getContentConfigurationInformation();
         },
 
         getServerConfigurationInformation() {
@@ -47,6 +49,12 @@ Component.register('salty-performance-analysis-overview', {
         getMediaConfigurationInformation() {
             this.SaltyPerformanceAnalysisService.getMediaConfigurationInformation().then(response => {
                 this.mediaConfigurationInformation = response;
+            });
+        },
+
+        getContentConfigurationInformation(){
+            this.SaltyPerformanceAnalysisService.getContentConfigurationInformation().then(response => {
+                this.contentConfigurationInformation = response;
             });
         },
 
